@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'theme/themecolors.dart';
+import 'pages/homepage.dart';
+
+void main() {
+  runApp(const HospitalWebApp());
+}
+
+class HospitalWebApp extends StatelessWidget {
+  const HospitalWebApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Serenity Hospital",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: ThemeColors.primary,
+        colorScheme: ColorScheme.light(
+          primary: ThemeColors.secondary,
+          secondary: ThemeColors.accent,
+          onPrimary: ThemeColors.textLight,
+          onSurface: ThemeColors.textDark,
+        ),
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: ThemeColors.textDark,
+          displayColor: ThemeColors.textDark,
+        ),
+      ),
+      initialRoute: '/',
+      routes: {'/': (context) => const HomePage()},
+    );
+  }
+}
