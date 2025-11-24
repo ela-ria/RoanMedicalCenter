@@ -93,7 +93,7 @@ class _HeroContentDesktop extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Welcome to Serenity Hospital",
+                "Welcome to Roan Medical Center",
                 style: TextStyle(
                   fontSize: 56,
                   fontWeight: FontWeight.w900,
