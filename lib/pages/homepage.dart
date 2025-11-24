@@ -156,7 +156,7 @@ class _HeroContentMobile extends StatelessWidget {
       children: <Widget>[
         // Title heading
         const Text(
-          "Welcome to Serenity Hospital",
+          "Welcome to Roan Medical Center",
           textAlign: TextAlign.center, // Center text on mobile
           style: TextStyle(
             fontSize: 40, // Smaller font size for mobile

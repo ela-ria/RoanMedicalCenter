@@ -12,7 +12,7 @@ class HospitalWebApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Serenity Hospital",
+      title: "Roan Medical Center",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: ThemeColors.primary,

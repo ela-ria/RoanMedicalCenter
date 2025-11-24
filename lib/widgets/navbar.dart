@@ -104,7 +104,7 @@ class _HospitalLogo extends StatelessWidget {
 
         // Name
         const Text(
-          "Serenity Hospital",
+          "Roan Medical Center",
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ Widget _navLink(String title, BuildContext context) {
         if (title == 'Home') {
           Navigator.of(context).pushNamed('/');
         }
-        // ... add logic for other routes if needed
+        // other routes go here
       },
       child: Text(
         title,
