@@ -10,7 +10,7 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: ThemeColors.secondary,
+      color: ThemeColors.secondaryDark,
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
       child: Responsive(desktop: _FooterDesktop(), mobile: _FooterMobile()),
     );
@@ -102,7 +102,6 @@ class _FooterLinksAndCopyright extends StatelessWidget {
         Navigator.of(context).pushNamed(_getRoute(title));
       },
       style: TextButton.styleFrom(
-        foregroundColor: ThemeColors.accent,
         padding: const EdgeInsets.symmetric(horizontal: 5),
       ),
       child: MouseRegion(

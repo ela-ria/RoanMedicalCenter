@@ -156,7 +156,7 @@ class _HeroContentMobile extends StatelessWidget {
             Navigator.of(context).pushNamed('/patientdashboard');
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColors.accent,
+            backgroundColor: ThemeColors.accentDark,
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
