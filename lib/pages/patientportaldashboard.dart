@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import '../widgets/portalnavbar.dart';
 import '../widgets/responsive.dart';
+import '../widgets/footer.dart';
 import 'laboratoryresultpage.dart';
 import 'appointmentpage.dart';
 
@@ -44,16 +45,7 @@ class PatientDashboard extends StatelessWidget {
             ),
 
             // 4. Footer
-            Container(
-              height: 150,
-              color: ThemeColors.secondary,
-              child: const Center(
-                child: Text(
-                  "Footer Content - Contact Info, Social Media, etc.",
-                  style: TextStyle(color: ThemeColors.textLight),
-                ),
-              ),
-            ),
+            const Footer(),
           ],
         ),
       ),

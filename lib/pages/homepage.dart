@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import '../widgets/navbar.dart';
 import '../widgets/responsive.dart';
+import '../widgets/footer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,27 +14,13 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // 1. Navigation Bar (Stays on top)
             const NavBar(),
 
-            // 2. Hero Section (The main image/banner and primary message)
             const HeroSection(),
 
-            // 3. Key Services Overview (e.g., Doctors, Departments, Emergency)
             const ServicesOverviewSection(),
 
-            // 4. Footer (for contact info, map, links—you can create a separate widget for this later)
-            Container(
-              height: 200,
-              color: ThemeColors
-                  .secondary, // Use a distinguishing color for the footer
-              child: const Center(
-                child: Text(
-                  "Footer Content - Contact Info, Social Media, etc.",
-                  style: TextStyle(color: ThemeColors.textLight),
-                ),
-              ),
-            ),
+            const Footer(),
           ],
         ),
       ),
@@ -41,22 +28,20 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// Example Widget for the main banner/hero
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600, // You might make this height responsive later
+      height: 600,
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: const AssetImage('assets/images/hero.jpg'),
           fit: BoxFit.cover,
-          // You can add colorFilter here to darken/lighten the image if text is hard to read
           colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.1), // Darken the image by 40%
+            Colors.black.withOpacity(0.1),
             BlendMode.darken,
           ),
         ),
@@ -67,7 +52,6 @@ class HeroSection extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(50.0),
               child: Responsive(
-                // <-- Using Responsive widget here
                 desktop: _HeroContentDesktop(),
                 mobile: _HeroContentMobile(),
               ),
@@ -79,20 +63,18 @@ class HeroSection extends StatelessWidget {
   }
 }
 
-// Separate widget for Hero Section content for desktop
 class _HeroContentDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        // Text and Call-to-Action (Left Side)
-        const Flexible(
+        Flexible(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
+              const Text(
                 "Welcome to Roan Medical Center",
                 style: TextStyle(
                   fontSize: 56,
@@ -101,100 +83,87 @@ class _HeroContentDesktop extends StatelessWidget {
                   height: 1.1,
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 "Your trusted partner in health and wellness. Experience compassionate care and world-class expertise right here.",
                 style: TextStyle(fontSize: 20, color: ThemeColors.textLight),
               ),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
 
-              // Button for something
+              // Button for patient portal
               ElevatedButton(
-                onPressed: null, // Placeholder action
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                    ThemeColors.accentDark,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/patientdashboard');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ThemeColors.accentDark,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 25,
                   ),
-                  padding: WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 40, vertical: 25),
-                  ),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
-                child: Text(
-                  "Find a Doctor",
+                child: const Text(
+                  "Patient Portal",
                   style: TextStyle(fontSize: 20, color: ThemeColors.textLight),
                 ),
               ),
             ],
           ),
         ),
-        // Removed the placeholder image on the right as it's now a background
-        // const SizedBox(width: 40),
-        // Expanded(
-        //   child: Placeholder(
-        //     fallbackHeight: 500,
-        //     color: ThemeColors.secondary.withOpacity(0.5),
-        //   ),
-        // )
       ],
     );
   }
 }
 
-// Separate widget for Hero Section content for mobile
 class _HeroContentMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center, // Center text for mobile
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         // Title heading
         const Text(
           "Welcome to Roan Medical Center",
-          textAlign: TextAlign.center, // Center text on mobile
+          textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 40, // Smaller font size for mobile
+            fontSize: 40,
             fontWeight: FontWeight.w900,
             color: ThemeColors.textLight,
             height: 1.1,
           ),
         ),
         const SizedBox(height: 15),
+
         // Subtitle / subheading
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             "Your trusted partner in health and wellness. Experience compassionate care and world-class expertise right here.",
-            textAlign: TextAlign.center, // Center text on mobile
-            style: TextStyle(
-              fontSize: 16, // Smaller font size for mobile
-              color: ThemeColors.textLight,
-            ),
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: ThemeColors.textLight),
           ),
         ),
         const SizedBox(height: 30),
-        // Button
+
+        // Button for patient portal
         ElevatedButton(
-          onPressed: null, // Placeholder action
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(ThemeColors.accent),
-            padding: WidgetStatePropertyAll(
-              EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            ),
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/patientdashboard');
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ThemeColors.accent,
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
           ),
           child: const Text(
-            "Find a Doctor",
+            "Patient Portal",
             style: TextStyle(
               fontSize: 18,
               color: ThemeColors.textLight,
@@ -207,7 +176,6 @@ class _HeroContentMobile extends StatelessWidget {
   }
 }
 
-// Example Widget for key information section (remains unchanged)
 class ServicesOverviewSection extends StatelessWidget {
   const ServicesOverviewSection({super.key});
 
@@ -226,9 +194,7 @@ class ServicesOverviewSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          // Use GridView or Wrap for a responsive set of cards
           Responsive(
-            // Make the services grid responsive too
             desktop: _ServiceGridDesktop(),
             mobile: _ServiceGridMobile(),
           ),
@@ -260,12 +226,11 @@ class ServicesOverviewSection extends StatelessWidget {
   }
 }
 
-// Widgets for responsive service grid
 class _ServiceGridDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 3, // 3 columns on desktop
+      crossAxisCount: 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 30,
@@ -296,12 +261,12 @@ class _ServiceGridMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 1, // 1 column on mobile
+      crossAxisCount: 1,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
-      childAspectRatio: 2.5, // Taller cards for mobile
+      childAspectRatio: 2.5,
       children: <Widget>[
         const ServicesOverviewSection()._serviceCard(
           'Emergency Care',

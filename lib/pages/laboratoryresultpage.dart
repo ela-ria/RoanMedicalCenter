@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import '../widgets/portalnavbar.dart';
 import '../widgets/responsive.dart';
+import '../widgets/footer.dart';
 
 class LaboratoryResultPage extends StatelessWidget {
   const LaboratoryResultPage({super.key});
@@ -23,16 +24,7 @@ class LaboratoryResultPage extends StatelessWidget {
             const LaboratoryResultsSection(),
 
             // 4. Footer
-            Container(
-              height: 200,
-              color: ThemeColors.secondary,
-              child: const Center(
-                child: Text(
-                  "Footer Content - Contact Info, Social Media, etc.",
-                  style: TextStyle(color: ThemeColors.textLight),
-                ),
-              ),
-            ),
+            const Footer(),
           ],
         ),
       ),

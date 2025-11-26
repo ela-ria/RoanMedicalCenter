@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import '../widgets/navbar.dart';
 import '../widgets/responsive.dart';
+import '../widgets/footer.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -85,17 +86,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
             const SizedBox(height: 60),
 
-            // Footer
-            Container(
-              height: 150,
-              color: ThemeColors.secondary,
-              child: const Center(
-                child: Text(
-                  "Footer - Contact info, social media, etc.",
-                  style: TextStyle(color: ThemeColors.textLight),
-                ),
-              ),
-            ),
+            const Footer(),
           ],
         ),
       ),
