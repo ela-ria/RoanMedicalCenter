@@ -1,9 +1,9 @@
 // lib/pages/appointment_page.dart
 import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
-import '../widgets/navbar.dart';
 import '../widgets/responsive.dart';
-import '../widgets/footer.dart';
+import '../widgets/portalnavbar.dart';
+import '../utils/auth.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -13,7 +13,6 @@ class AppointmentPage extends StatefulWidget {
 }
 
 class _AppointmentPageState extends State<AppointmentPage> {
-  // Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -23,7 +22,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
   String? selectedDoctor;
   DateTime? selectedDate;
 
-  // Sample data
   final List<String> departments = [
     "General Medicine",
     "Pediatrics",
@@ -40,16 +38,34 @@ class _AppointmentPageState extends State<AppointmentPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    if (Auth.isLoggedIn && Auth.userType == "patient") {
+      nameController.text = Auth.userName ?? '';
+      emailController.text = Auth.userEmail ?? '';
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Only patients can book appointments")),
+        );
+        Navigator.of(context).pop();
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const NavBar(),
+            // Use the PortalNavBar
+            const PortalNavBar(),
 
-            // Header / Hero
+            // Hero / Header
             Container(
-              height: 300,
+              height: 250,
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -65,7 +81,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 child: Text(
                   "Book an Appointment",
                   style: TextStyle(
-                    fontSize: 48,
+                    fontSize: 40,
                     fontWeight: FontWeight.w800,
                     color: ThemeColors.textLight,
                   ),
@@ -84,9 +100,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
               ),
             ),
 
-            const SizedBox(height: 60),
-
-            const Footer(),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -115,10 +129,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       ),
     );
 
-    // Clear all fields
     setState(() {
-      nameController.clear();
-      emailController.clear();
       phoneController.clear();
       notesController.clear();
       selectedDepartment = null;
@@ -163,7 +174,7 @@ class _AppointmentMobile extends StatelessWidget {
   }
 }
 
-// Left Column Fields
+// Left Form Section
 class _LeftFormSection extends StatelessWidget {
   final _AppointmentPageState state;
   const _LeftFormSection({required this.state});
@@ -174,15 +185,11 @@ class _LeftFormSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label("Full Name"),
-        _input(controller: state.nameController),
-
+        _input(controller: state.nameController, readOnly: true),
         const SizedBox(height: 25),
-
         _label("Email Address"),
-        _input(controller: state.emailController),
-
+        _input(controller: state.emailController, readOnly: true),
         const SizedBox(height: 25),
-
         _label("Select Department"),
         _dropdown(
           items: state.departments,
@@ -190,9 +197,7 @@ class _LeftFormSection extends StatelessWidget {
           onChanged: (val) =>
               state.setState(() => state.selectedDepartment = val),
         ),
-
         const SizedBox(height: 25),
-
         _label("Select Doctor"),
         _dropdown(
           items: state.doctors,
@@ -204,7 +209,7 @@ class _LeftFormSection extends StatelessWidget {
   }
 }
 
-// Right Column Fields
+// Right Form Section
 class _RightFormSection extends StatelessWidget {
   final _AppointmentPageState state;
   const _RightFormSection({required this.state});
@@ -216,19 +221,13 @@ class _RightFormSection extends StatelessWidget {
       children: [
         _label("Appointment Date"),
         _datePicker(context, state),
-
         const SizedBox(height: 25),
-
         _label("Phone Number"),
         _input(controller: state.phoneController),
-
         const SizedBox(height: 25),
-
         _label("Notes (Optional)"),
         _input(controller: state.notesController, maxLines: 4),
-
         const SizedBox(height: 30),
-
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -264,10 +263,15 @@ Widget _label(String text) {
   );
 }
 
-Widget _input({required TextEditingController controller, int maxLines = 1}) {
+Widget _input({
+  required TextEditingController controller,
+  int maxLines = 1,
+  bool readOnly = false,
+}) {
   return TextField(
     controller: controller,
     maxLines: maxLines,
+    readOnly: readOnly,
     decoration: InputDecoration(
       filled: true,
       fillColor: Colors.white,

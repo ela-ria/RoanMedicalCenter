@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import '../widgets/responsive.dart';
 import '../pages/appointmentpage.dart';
+import '../utils/auth.dart';
 
 class PortalNavBar extends StatelessWidget {
   const PortalNavBar({super.key});
@@ -44,7 +45,14 @@ class _DesktopPortalNavLinks extends StatelessWidget {
         const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
+            Auth.logout(); // clear session/auth state
+            Navigator.popUntil(
+              context,
+              (route) => route.isFirst,
+            ); // go back to home/login
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Logged out successfully")),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: ThemeColors.accentDark,
@@ -99,7 +107,6 @@ class _MobilePortalNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -157,9 +164,15 @@ class _MobilePortalNavBar extends StatelessWidget {
                             style: TextStyle(color: ThemeColors.textLight),
                           ),
                           onTap: () {
+                            Auth.logout(); // clear auth
                             Navigator.popUntil(
                               context,
                               (route) => route.isFirst,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Logged out successfully"),
+                              ),
                             );
                           },
                         ),

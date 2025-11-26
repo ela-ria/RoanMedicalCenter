@@ -4,6 +4,7 @@ import '../theme/themecolors.dart';
 import '../widgets/navbar.dart';
 import '../widgets/responsive.dart';
 import '../widgets/footer.dart';
+import '../utils/auth.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -91,10 +92,22 @@ class _HeroContentDesktop extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // Button for patient portal
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/patientdashboard');
+                  if (Auth.isLoggedIn && Auth.userType == "patient") {
+                    // Navigate to patient dashboard
+                    Navigator.of(context).pushNamed('/patientdashboard');
+                  } else {
+                    // Not logged in or not a patient → go to login page
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "You must login as a patient to access the portal",
+                        ),
+                      ),
+                    );
+                    Navigator.of(context).pushNamed('/login');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ThemeColors.accentDark,
@@ -156,7 +169,7 @@ class _HeroContentMobile extends StatelessWidget {
             Navigator.of(context).pushNamed('/patientdashboard');
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColors.accentDark,
+            backgroundColor: ThemeColors.accent,
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),

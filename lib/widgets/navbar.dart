@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../theme/themecolors.dart';
 import 'responsive.dart';
+import '../utils/auth.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -28,7 +29,21 @@ class _DesktopNavLinks extends StatelessWidget {
 
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pushNamed('/appointment');
+            if (Auth.isLoggedIn && Auth.userType == "patient") {
+              Navigator.of(context).pushNamed('/appointment');
+            } else if (Auth.isLoggedIn && Auth.userType != "patient") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Only patients can book appointments"),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Please login first to book an appointment"),
+                ),
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: ThemeColors.accentDark,
@@ -55,13 +70,7 @@ class _DesktopNavbar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          // Left Side
-          _HospitalLogo(),
-
-          // Right Side
-          _DesktopNavLinks(),
-        ],
+        children: <Widget>[_HospitalLogo(), _DesktopNavLinks()],
       ),
     );
   }
@@ -76,10 +85,7 @@ class _MobileNavbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          // Left Side
           _HospitalLogo(),
-
-          // Right Side
           IconButton(
             icon: const Icon(Icons.menu, color: ThemeColors.textDark),
             iconSize: 30,
@@ -114,8 +120,28 @@ class _MobileNavbar extends StatelessWidget {
                       ),
                       ListTile(
                         title: const Text('Book Appointment'),
-                        onTap: () =>
-                            Navigator.of(context).pushNamed('/appointment'),
+                        onTap: () {
+                          if (Auth.isLoggedIn && Auth.userType == "patient") {
+                            Navigator.of(context).pushNamed('/appointment');
+                          } else if (Auth.isLoggedIn &&
+                              Auth.userType != "patient") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Only patients can book appointments",
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Please login first to book an appointment",
+                                ),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   );
@@ -136,12 +162,8 @@ class _HospitalLogo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // Logo
         Image.asset('assets/logos/logo.png', height: 50),
-
         const SizedBox(width: 10),
-
-        // Name
         const Text(
           "Roan Medical Center",
           style: TextStyle(

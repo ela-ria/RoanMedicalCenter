@@ -1,6 +1,10 @@
+// lib/pages/loginpage.dart
 import 'package:flutter/material.dart';
-import 'signuppage.dart';
 import '../theme/themecolors.dart';
+import 'signuppage.dart';
+import '../pages/patientportaldashboard.dart';
+import '../pages/doctordashboard.dart';
+import '../utils/auth.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,17 +17,18 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: ThemeColors.secondary,
       appBar: AppBar(
-        title: const Text('Sign In/Up'),
+        title: const Text('Login'),
         backgroundColor: ThemeColors.secondary,
         elevation: 0,
       ),
-      body: initialIndex == 0 ? _LoginTab() : SignupPage(),
+      body: initialIndex == 0 ? const _LoginTab() : const SignupPage(),
     );
   }
 }
 
 class _LoginTab extends StatefulWidget {
   const _LoginTab();
+
   @override
   State<_LoginTab> createState() => _LoginTabState();
 }
@@ -38,6 +43,38 @@ class _LoginTabState extends State<_LoginTab> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      String email = emailController.text.trim();
+      String password = passwordController.text;
+
+      // Simulate authentication
+      Auth.isLoggedIn = true;
+
+      // Determine user type based on email (or your auth logic)
+      if (email.contains("patient")) {
+        Auth.userType = "patient";
+      } else {
+        Auth.userType = "doctor";
+      }
+
+      // Navigate based on role
+      if (Auth.userType == "patient") {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const PatientDashboard()),
+        );
+      } else if (Auth.userType == "doctor") {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const DoctorDashboard()),
+        );
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Invalid user type")));
+      }
+    }
   }
 
   @override
@@ -90,7 +127,7 @@ class _LoginTabState extends State<_LoginTab> {
                   obscureText: true,
                   decoration: _roundedField("Password"),
                   validator: (v) => v == null || v.length < 6
-                      ? "Password must be min 6 chars"
+                      ? "Password must be at least 6 characters"
                       : null,
                 ),
                 const SizedBox(height: 25),
@@ -106,15 +143,7 @@ class _LoginTabState extends State<_LoginTab> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Login attempt successful"),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _login,
                     child: const Text(
                       "LOGIN",
                       style: TextStyle(
@@ -131,7 +160,6 @@ class _LoginTabState extends State<_LoginTab> {
                   "Or login with",
                   style: TextStyle(color: ThemeColors.textDark),
                 ),
-
                 const SizedBox(height: 12),
 
                 Row(
@@ -144,7 +172,6 @@ class _LoginTabState extends State<_LoginTab> {
                 ),
 
                 const SizedBox(height: 20),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -188,9 +215,7 @@ class _LoginTabState extends State<_LoginTab> {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: ThemeColors.secondaryDark.withOpacity(0.5),
-        ),
+        borderSide: BorderSide(color: ThemeColors.accentDark.withOpacity(0.5)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -200,18 +225,21 @@ class _LoginTabState extends State<_LoginTab> {
   }
 
   Widget _socialButton(IconData icon, String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: ThemeColors.secondary.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: ThemeColors.secondaryDark),
-          const SizedBox(width: 6),
-          Text(text, style: TextStyle(color: ThemeColors.textDark)),
-        ],
+    return GestureDetector(
+      onTap: _login,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: ThemeColors.secondary.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: ThemeColors.secondaryDark),
+            const SizedBox(width: 6),
+            Text(text, style: TextStyle(color: ThemeColors.textDark)),
+          ],
+        ),
       ),
     );
   }
