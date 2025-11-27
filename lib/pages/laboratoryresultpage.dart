@@ -192,7 +192,7 @@ Widget labTable(String title, List<List<String>> rowsData, String Date) {
             scrollDirection: Axis.horizontal,
             child: DataTable(
               columns: const [
-                DataColumn(label: Text("TEST")),
+                DataColumn(label: Text("TEST NAME")),
                 DataColumn(label: Text("RESULT")),
                 DataColumn(label: Text("NORMAL VALUE")),
               ],
