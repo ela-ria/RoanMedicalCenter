@@ -53,7 +53,7 @@ class _LoginTabState extends State<_LoginTab> {
       // Simulate authentication
       Auth.isLoggedIn = true;
 
-      // Determine user type based on email (or your auth logic)
+      // Determine user type based on email
       if (email.contains("patient")) {
         Auth.userType = "patient";
       } else {
