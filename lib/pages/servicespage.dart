@@ -4,7 +4,6 @@ import '../theme/themecolors.dart';
 import '../widgets/responsive.dart';
 import '../widgets/footer.dart';
 
-/// UPDATED: Added descriptions for each service
 const List<Map<String, dynamic>> _services = [
   {
     'title': 'General Medicine',
@@ -199,7 +198,6 @@ class ServiceCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 5,
 
-      // UPDATED: White background
       color: Colors.white,
 
       child: Padding(
@@ -207,7 +205,6 @@ class ServiceCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // UPDATED: Icon color → ThemeColors.accent
             Icon(icon, size: 50, color: ThemeColors.accent),
 
             const SizedBox(height: 10),
@@ -216,7 +213,7 @@ class ServiceCard extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: ThemeColors.textDark, // UPDATED for contrast
+                color: ThemeColors.textDark,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -228,7 +225,7 @@ class ServiceCard extends StatelessWidget {
               description,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: ThemeColors.textDark.withOpacity(0.7), // UPDATED
+                color: ThemeColors.textDark.withOpacity(0.7),
                 fontSize: 14,
               ),
             ),

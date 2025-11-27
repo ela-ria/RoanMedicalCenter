@@ -70,7 +70,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Use the PortalNavBar
+            // PortalNavBar
             const PortalNavBar(),
 
             // Hero / Header

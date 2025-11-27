@@ -21,7 +21,6 @@ class _DesktopNavLinks extends StatelessWidget {
       children: <Widget>[
         _navLink('Home', context),
         _navLink('Login', context),
-        _navLink('About Us', context),
         _navLink('Our Services', context),
         _navLink('Our Doctors', context),
         _navLink('Contact Us', context),
@@ -105,10 +104,6 @@ class _MobileNavbar extends StatelessWidget {
                         onTap: () => Navigator.of(context).pushNamed('/login'),
                       ),
                       ListTile(
-                        title: const Text('About Us'),
-                        onTap: () => Navigator.of(context).pushNamed('/about'),
-                      ),
-                      ListTile(
                         title: const Text('Our Services'),
                         onTap: () =>
                             Navigator.of(context).pushNamed('/services'),
@@ -117,6 +112,11 @@ class _MobileNavbar extends StatelessWidget {
                         title: const Text('Our Doctors'),
                         onTap: () =>
                             Navigator.of(context).pushNamed('/doctors'),
+                      ),
+                      ListTile(
+                        title: const Text('Contact Us'),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed('/contactus'),
                       ),
                       ListTile(
                         title: const Text('Book Appointment'),
@@ -183,14 +183,12 @@ String _getRoute(String title) {
       return '/';
     case 'Login':
       return '/login';
-    case 'About Us':
-      return '/about';
     case 'Our Services':
       return '/services';
     case 'Our Doctors':
       return '/doctors';
     case 'Contact Us':
-      return '/contact';
+      return '/contactus';
     case 'Book Appointment':
       return '/appointment';
     default:
